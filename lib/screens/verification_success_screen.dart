@@ -107,18 +107,25 @@ class VerificationSuccessScreen extends StatelessWidget {
                 child: Row(
                   textDirection: TextDirection.rtl,
                   children: [
-                    // Shield icon with light background (RIGHT side in RTL)
+                    // Shield icon with transparent circle and gray stroke (RIGHT side in RTL)
                     Container(
-                      padding: const EdgeInsets.all(10),
+                      width: 44,
+                      height: 44,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFFF9E6),
-                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.transparent,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.grey[300]!,
+                          width: 1.5,
+                        ),
                       ),
-                      child: Image.asset(
-                        'images/shiled.png',
-                        width: 24,
-                        height: 24,
-                        color: const Color(0xFFF2CF2F), // Golden yellow
+                      child: Center(
+                        child: Image.asset(
+                          'images/shiled.png',
+                          width: 24,
+                          height: 24,
+                          color: const Color(0xFFF2CF2F), // Golden yellow
+                        ),
                       ),
                     ),
                     const SizedBox(width: 12),
