@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
@@ -11,6 +13,13 @@ class ApiService {
   ApiService._internal();
 
   String? _token;
+  
+  // Create HTTP client that bypasses SSL verification (for development only)
+  http.Client _createHttpClient() {
+    final httpClient = HttpClient()
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    return IOClient(httpClient);
+  }
 
   // Get token from storage
   Future<String?> getToken() async {
@@ -36,10 +45,11 @@ class ApiService {
 
   // Login - Send OTP to phone
   Future<ApiResponse> login(String phone) async {
+    final client = _createHttpClient();
     try {
       print('🔄 Calling login API with phone: $phone');
       
-      final response = await http.post(
+      final response = await client.post(
         Uri.parse('$baseUrl/auth/login'),
         body: {'phone': phone},
       );
@@ -83,8 +93,11 @@ class ApiService {
 
   // Verify OTP
   Future<ApiResponse> verifyOtp(String phone, String otpCode) async {
+    final client = _createHttpClient();
     try {
-      final response = await http.post(
+      print('🔄 Verifying OTP for phone: $phone');
+      
+      final response = await client.post(
         Uri.parse('$baseUrl/auth/verify-otp'),
         body: {
           'phone': phone,
@@ -92,19 +105,29 @@ class ApiService {
         },
       );
 
-      final data = json.decode(response.body);
+      print('📡 Response status: ${response.statusCode}');
+      print('📦 Response body: ${response.body}');
+
+      dynamic data;
+      try {
+        data = json.decode(response.body);
+      } catch (e) {
+        data = {'message': response.body};
+      }
       
-      if (response.statusCode == 200) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         // Save token if provided
         if (data['token'] != null) {
           await saveToken(data['token']);
         }
+        print('✅ OTP verified successfully');
         return ApiResponse(
           success: true,
           message: data['message'] ?? 'تم التحقق بنجاح',
           data: data,
         );
       } else {
+        print('❌ OTP verification failed');
         return ApiResponse(
           success: false,
           message: data['message'] ?? 'رمز التحقق غير صحيح',
@@ -112,9 +135,10 @@ class ApiService {
         );
       }
     } catch (e) {
+      print('🚨 Exception: $e');
       return ApiResponse(
         success: false,
-        message: 'خطأ في الاتصال بالخادم',
+        message: 'خطأ في الاتصال بالخادم: $e',
         error: e.toString(),
       );
     }
