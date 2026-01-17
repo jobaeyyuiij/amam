@@ -504,4 +504,27 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  Widget _buildAvatarWhite(String text) {
+    return Container(
+      width: 28,
+      height: 28,
+      margin: const EdgeInsets.only(left: 4),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.2),
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontFamily: 'Cairo',
+            fontSize: 10,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
 }
