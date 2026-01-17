@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'mail_detail_screen.dart';
 
 class MailScreen extends StatefulWidget {
   const MailScreen({super.key});
@@ -225,14 +226,22 @@ class _MailScreenState extends State<MailScreen> {
   }
 
   Widget _buildMailCard(Map<String, dynamic> mail) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey[200]!),
-      ),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => MailDetailScreen(mail: mail),
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.grey[200]!),
+        ),
       child: Row(
         textDirection: TextDirection.rtl,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -375,6 +384,7 @@ class _MailScreenState extends State<MailScreen> {
             ],
           ),
         ],
+      ),
       ),
     );
   }
