@@ -173,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 16),
                 // Security notice card
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -181,7 +181,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Row(
                     textDirection: TextDirection.rtl,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Shield icon on right
+                      Image.asset(
+                        'images/shiled.png',
+                        width: 32,
+                        height: 32,
+                      ),
+                      const SizedBox(width: 16),
+                      // Text content
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -192,29 +201,24 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: TextStyle(
                                 fontFamily: 'Cairo',
                                 fontSize: 16,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w700,
                                 color: Colors.black,
                               ),
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(height: 8),
                             Text(
                               'لأسباب امنية، يتطلب الوصول إلى البريد غير المقروء إدخال رمز تحقق خاص بكل رسالة.',
                               textDirection: TextDirection.rtl,
+                              textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontFamily: 'Cairo',
-                                fontSize: 13,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.grey[600],
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Image.asset(
-                        'images/shiled.png',
-                        width: 28,
-                        height: 28,
                       ),
                     ],
                   ),
