@@ -222,16 +222,24 @@ class ApiService {
 
   // Get all documents
   Future<ApiResponse> getAllDocuments() async {
+    final client = _createHttpClient();
     try {
       final headers = await _getAuthHeaders();
-      final response = await http.post(
+      final response = await client.post(
         Uri.parse('$baseUrl/all/documents'),
         headers: headers,
       );
 
-      final data = json.decode(response.body);
+      print('📡 getAllDocuments status: ${response.statusCode}');
       
-      if (response.statusCode == 200) {
+      dynamic data;
+      try {
+        data = json.decode(response.body);
+      } catch (e) {
+        data = {'documents': []};
+      }
+      
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         return ApiResponse(success: true, data: data);
       } else {
         return ApiResponse(
@@ -241,6 +249,7 @@ class ApiService {
         );
       }
     } catch (e) {
+      print('🚨 getAllDocuments error: $e');
       return ApiResponse(
         success: false,
         message: 'خطأ في الاتصال بالخادم',
@@ -251,16 +260,24 @@ class ApiService {
 
   // Get read documents
   Future<ApiResponse> getReadDocuments() async {
+    final client = _createHttpClient();
     try {
       final headers = await _getAuthHeaders();
-      final response = await http.post(
+      final response = await client.post(
         Uri.parse('$baseUrl/read/documents'),
         headers: headers,
       );
 
-      final data = json.decode(response.body);
+      print('📡 getReadDocuments status: ${response.statusCode}');
       
-      if (response.statusCode == 200) {
+      dynamic data;
+      try {
+        data = json.decode(response.body);
+      } catch (e) {
+        data = {'documents': []};
+      }
+      
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         return ApiResponse(success: true, data: data);
       } else {
         return ApiResponse(
@@ -270,6 +287,7 @@ class ApiService {
         );
       }
     } catch (e) {
+      print('🚨 getReadDocuments error: $e');
       return ApiResponse(
         success: false,
         message: 'خطأ في الاتصال بالخادم',
@@ -280,16 +298,24 @@ class ApiService {
 
   // Get unread documents
   Future<ApiResponse> getUnreadDocuments() async {
+    final client = _createHttpClient();
     try {
       final headers = await _getAuthHeaders();
-      final response = await http.post(
+      final response = await client.post(
         Uri.parse('$baseUrl/unread/documents'),
         headers: headers,
       );
 
-      final data = json.decode(response.body);
+      print('📡 getUnreadDocuments status: ${response.statusCode}');
       
-      if (response.statusCode == 200) {
+      dynamic data;
+      try {
+        data = json.decode(response.body);
+      } catch (e) {
+        data = {'documents': []};
+      }
+      
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         return ApiResponse(success: true, data: data);
       } else {
         return ApiResponse(
@@ -309,17 +335,25 @@ class ApiService {
 
   // Send OTP for document
   Future<ApiResponse> sendDocumentOtp(int documentId) async {
+    final client = _createHttpClient();
     try {
       final headers = await _getAuthHeaders();
-      final response = await http.post(
+      final response = await client.post(
         Uri.parse('$baseUrl/document/send-otp'),
         headers: headers,
         body: {'document_id': documentId.toString()},
       );
 
-      final data = json.decode(response.body);
+      print('📡 sendDocumentOtp status: ${response.statusCode}');
       
-      if (response.statusCode == 200) {
+      dynamic data;
+      try {
+        data = json.decode(response.body);
+      } catch (e) {
+        data = {};
+      }
+      
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         return ApiResponse(
           success: true,
           message: data['message'] ?? 'تم إرسال رمز التحقق',
@@ -333,6 +367,7 @@ class ApiService {
         );
       }
     } catch (e) {
+      print('🚨 sendDocumentOtp error: $e');
       return ApiResponse(
         success: false,
         message: 'خطأ في الاتصال بالخادم',
@@ -343,9 +378,10 @@ class ApiService {
 
   // Verify document OTP
   Future<ApiResponse> verifyDocumentOtp(int documentId, String otpCode) async {
+    final client = _createHttpClient();
     try {
       final headers = await _getAuthHeaders();
-      final response = await http.post(
+      final response = await client.post(
         Uri.parse('$baseUrl/document/verify-otp'),
         headers: headers,
         body: {
@@ -354,9 +390,16 @@ class ApiService {
         },
       );
 
-      final data = json.decode(response.body);
+      print('📡 verifyDocumentOtp status: ${response.statusCode}');
       
-      if (response.statusCode == 200) {
+      dynamic data;
+      try {
+        data = json.decode(response.body);
+      } catch (e) {
+        data = {};
+      }
+      
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         return ApiResponse(success: true, data: data);
       } else {
         return ApiResponse(
@@ -366,6 +409,7 @@ class ApiService {
         );
       }
     } catch (e) {
+      print('🚨 verifyDocumentOtp error: $e');
       return ApiResponse(
         success: false,
         message: 'خطأ في الاتصال بالخادم',
@@ -376,9 +420,10 @@ class ApiService {
 
   // Confirm document receipt
   Future<ApiResponse> confirmDocumentReceipt(int documentId) async {
+    final client = _createHttpClient();
     try {
       final headers = await _getAuthHeaders();
-      final response = await http.post(
+      final response = await client.post(
         Uri.parse('$baseUrl/document/confirm-receipt'),
         headers: headers,
         body: {
@@ -387,9 +432,16 @@ class ApiService {
         },
       );
 
-      final data = json.decode(response.body);
+      print('📡 confirmDocumentReceipt status: ${response.statusCode}');
       
-      if (response.statusCode == 200) {
+      dynamic data;
+      try {
+        data = json.decode(response.body);
+      } catch (e) {
+        data = {};
+      }
+      
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         return ApiResponse(
           success: true,
           message: data['message'] ?? 'تم تأكيد الاستلام بنجاح',
