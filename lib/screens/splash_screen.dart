@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-import 'onboarding_screen.dart';
+import 'onboarding_page_1.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
         // Restore status bar
         SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+          MaterialPageRoute(builder: (context) => const OnboardingPage1()),
         );
       }
     });
