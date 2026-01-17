@@ -13,16 +13,20 @@ class VerificationSuccessScreen extends StatelessWidget {
           child: Column(
             children: [
               const Spacer(flex: 2),
-              // Success checkmark with green circle and outer glow
+              // Success checkmark with circle and outer glow
               Container(
                 width: 120,
                 height: 120,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF4CAF50), // Solid green background
+                  color: const Color(0xFFF0FDF4), // Light mint background
                   shape: BoxShape.circle,
+                  border: Border.all(
+                    color: const Color(0xFFDBFCE7), // Mint stroke
+                    width: 3,
+                  ),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF4CAF50).withOpacity(0.3),
+                      color: const Color(0xFFFFF2B1), // Yellow glow
                       spreadRadius: 15,
                       blurRadius: 30,
                       offset: const Offset(0, 0),
@@ -32,7 +36,7 @@ class VerificationSuccessScreen extends StatelessWidget {
                 child: const Center(
                   child: Icon(
                     Icons.check,
-                    color: Colors.white,
+                    color: Color(0xFF4CAF50), // Green checkmark
                     size: 60,
                   ),
                 ),
@@ -78,15 +82,15 @@ class VerificationSuccessScreen extends StatelessWidget {
                       color: Colors.grey[600],
                     ),
                   ),
-                  Text(
+                  const Text(
                     'اعمام',
                     style: TextStyle(
                       fontFamily: 'Cairo',
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: const Color(0xFF4DB6AC),
+                      color: Color(0xFFF2CF2F), // Golden yellow
                       decoration: TextDecoration.underline,
-                      decorationColor: const Color(0xFF4DB6AC),
+                      decorationColor: Color(0xFFF2CF2F),
                     ),
                   ),
                 ],
@@ -103,20 +107,18 @@ class VerificationSuccessScreen extends StatelessWidget {
                 child: Row(
                   textDirection: TextDirection.rtl,
                   children: [
-                    // Green check circle
+                    // Shield icon with light background (RIGHT side in RTL)
                     Container(
-                      width: 32,
-                      height: 32,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF4CAF50),
-                        shape: BoxShape.circle,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFF9E6),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: 20,
-                        ),
+                      child: Image.asset(
+                        'images/shiled.png',
+                        width: 24,
+                        height: 24,
+                        color: const Color(0xFFF2CF2F), // Golden yellow
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -150,18 +152,20 @@ class VerificationSuccessScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 12),
-                    // Shield icon with light green background
+                    // Green check circle (LEFT side in RTL)
                     Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE8F5E9),
-                        borderRadius: BorderRadius.circular(10),
+                      width: 32,
+                      height: 32,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFF4CAF50),
+                        shape: BoxShape.circle,
                       ),
-                      child: Image.asset(
-                        'images/shiled.png',
-                        width: 24,
-                        height: 24,
-                        color: const Color(0xFF4CAF50),
+                      child: const Center(
+                        child: Icon(
+                          Icons.check,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ],
