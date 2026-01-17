@@ -13,46 +13,48 @@ class OnboardingScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(flex: 2),
-              // Logo
-              Image.asset(
-                'images/logo.png',
-                width: 200,
-                height: 200,
-              ),
-              const SizedBox(height: 40),
               // Main title
-              const Text(
+              Text(
                 'اعمام',
                 textDirection: TextDirection.rtl,
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'Cairo',
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 36,
+                  fontWeight: FontWeight.w700,
                   color: Colors.black,
                 ),
               ),
               const SizedBox(height: 8),
               // Subtitle
-              const Text(
+              Text(
                 'نظام البريد الداخلي',
                 textDirection: TextDirection.rtl,
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'Cairo',
-                  fontSize: 18,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
                   color: Colors.grey,
                 ),
               ),
+              const SizedBox(height: 40),
+              // Logo - centered
+              Image.asset(
+                'images/logo.png',
+                width: 250,
+                height: 250,
+              ),
               const Spacer(flex: 3),
               // Bottom text
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Text(
-                  'الشركة المتحدة لنقل الركاب\nشركة الديوانية - البريد الداخلي',
+                  'الشركة المتحدة لنقل الركاب\nجمهورية العراق - وزارة النقل',
                   textDirection: TextDirection.rtl,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'Cairo',
                     fontSize: 14,
+                    fontWeight: FontWeight.w400,
                     color: Colors.grey,
                   ),
                 ),

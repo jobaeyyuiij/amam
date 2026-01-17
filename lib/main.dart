@@ -18,8 +18,6 @@ class FilterApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'Cairo',
       ),
-      // Set RTL text direction for Arabic
-      locale: const Locale('ar', 'IQ'),
       home: const SplashScreen(),
     );
   }
