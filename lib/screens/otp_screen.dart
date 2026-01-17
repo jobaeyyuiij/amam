@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
+import 'verification_success_screen.dart';
 
 class OtpScreen extends StatefulWidget {
   final String phoneNumber;
@@ -151,9 +152,13 @@ class _OtpScreenState extends State<OtpScreen> {
                   child: ElevatedButton(
                     onPressed: _isButtonEnabled
                         ? () {
-                            // TODO: Verify OTP
                             String otp = _controllers.map((c) => c.text).join();
-                            print('OTP: $otp');
+                            // Navigate to success screen
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => const VerificationSuccessScreen(),
+                              ),
+                            );
                           }
                         : null,
                     style: ElevatedButton.styleFrom(
