@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'onboarding_page_2.dart';
 
-class OnboardingPage1 extends StatelessWidget {
-  const OnboardingPage1({super.key});
+class OnboardingPage2 extends StatelessWidget {
+  const OnboardingPage2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +15,14 @@ class OnboardingPage1 extends StatelessWidget {
               const Spacer(flex: 2),
               // Illustration
               Image.asset(
-                'images/1.png',
+                'images/2.png',
                 width: 280,
                 height: 280,
               ),
               const SizedBox(height: 60),
               // Title
               const Text(
-                'إدارة البريد الرسمي بسهولة',
+                'حماية وأمان عالي',
                 textDirection: TextDirection.rtl,
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -36,7 +35,7 @@ class OnboardingPage1 extends StatelessWidget {
               const SizedBox(height: 16),
               // Description
               const Text(
-                'استلم واطلع على البريد الرسمي الخاص بك\nبشكل منظم وآمن عبر تطبيق اعمام',
+                'يتم تأكيد استلام كل رسالة\nمن خلال رمز تحقق (OTP) لضمان الموثوقية',
                 textDirection: TextDirection.rtl,
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -52,9 +51,9 @@ class OnboardingPage1 extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildPageIndicator(true),
-                  const SizedBox(width: 8),
                   _buildPageIndicator(false),
+                  const SizedBox(width: 8),
+                  _buildPageIndicator(true),
                   const SizedBox(width: 8),
                   _buildPageIndicator(false),
                 ],
@@ -66,9 +65,7 @@ class OnboardingPage1 extends StatelessWidget {
                 height: 56,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const OnboardingPage2()),
-                    );
+                    // TODO: Navigate to page 3
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF4DB6AC),
