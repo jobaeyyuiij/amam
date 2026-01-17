@@ -62,25 +62,31 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 30),
                 // Welcome message
-                const Text(
-                  'أهلاً وسهلاً، أحمد محمد',
-                  textDirection: TextDirection.rtl,
-                  style: TextStyle(
-                    fontFamily: 'Cairo',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
+                const Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'أهلاً وسهلاً، أحمد محمد',
+                    textDirection: TextDirection.rtl,
+                    style: TextStyle(
+                      fontFamily: 'Cairo',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  'إليك ملخص أعمالك اليومية',
-                  textDirection: TextDirection.rtl,
-                  style: TextStyle(
-                    fontFamily: 'Cairo',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.grey[600],
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'إليك ملخص أعمالك اليومية',
+                    textDirection: TextDirection.rtl,
+                    style: TextStyle(
+                      fontFamily: 'Cairo',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey[600],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -122,19 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     textDirection: TextDirection.rtl,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE0F7FA),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(
-                          Icons.mail_outline,
-                          color: Color(0xFF4DB6AC),
-                          size: 28,
-                        ),
-                      ),
-                      const Spacer(),
+                      // Text on right
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
@@ -158,6 +152,20 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ],
+                      ),
+                      const Spacer(),
+                      // Icon on left
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE0F7FA),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.mail_outline,
+                          color: Color(0xFF4DB6AC),
+                          size: 28,
+                        ),
                       ),
                     ],
                   ),
@@ -214,6 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 16),
                 // Events calendar section
                 Container(
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: const Color(0xFF4DB6AC),
                     borderRadius: BorderRadius.circular(16),
@@ -221,165 +230,151 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: [
                       // Calendar header
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          textDirection: TextDirection.rtl,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(20),
+                      Row(
+                        textDirection: TextDirection.rtl,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: const Text(
+                              'أكتوبر 2025',
+                              style: TextStyle(
+                                fontFamily: 'Cairo',
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
                               ),
-                              child: const Text(
-                                'أكتوبر 2025',
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'تقويم الأحداث',
                                 style: TextStyle(
                                   fontFamily: 'Cairo',
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
                                   color: Colors.white,
                                 ),
                               ),
+                              const SizedBox(width: 8),
+                              Icon(
+                                Icons.calendar_today,
+                                color: Colors.white.withOpacity(0.8),
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      // Event content
+                      Row(
+                        textDirection: TextDirection.rtl,
+                        children: [
+                          // Date box
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                            Row(
+                            child: const Column(
                               children: [
-                                const Text(
-                                  'تقويم الأحداث',
+                                Text(
+                                  'الخميس',
                                   style: TextStyle(
                                     fontFamily: 'Cairo',
-                                    fontSize: 16,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  '24',
+                                  style: TextStyle(
+                                    fontFamily: 'Cairo',
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          // Event details
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                const Text(
+                                  'اجتماع وزراء النقل السنوي',
+                                  textDirection: TextDirection.rtl,
+                                  style: TextStyle(
+                                    fontFamily: 'Cairo',
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
                                   ),
                                 ),
-                                const SizedBox(width: 8),
-                                Icon(
-                                  Icons.calendar_today,
-                                  color: Colors.white.withOpacity(0.8),
-                                  size: 20,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      // Event card
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              textDirection: TextDirection.rtl,
-                              children: [
-                                // Date box
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF4DB6AC),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: const Column(
-                                    children: [
-                                      Text(
-                                        'الخميس',
-                                        style: TextStyle(
-                                          fontFamily: 'Cairo',
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      Text(
-                                        '24',
-                                        style: TextStyle(
-                                          fontFamily: 'Cairo',
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(width: 16),
-                                // Event details
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      const Text(
-                                        'اجتماع وزراء النقل السنوي',
-                                        textDirection: TextDirection.rtl,
-                                        style: TextStyle(
-                                          fontFamily: 'Cairo',
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Row(
-                                        textDirection: TextDirection.rtl,
-                                        children: [
-                                          Icon(Icons.access_time, size: 14, color: Colors.grey[500]),
-                                          const SizedBox(width: 4),
-                                          Text(
-                                            '10:00 صباحاً - القاعة الكبرى',
-                                            textDirection: TextDirection.rtl,
-                                            style: TextStyle(
-                                              fontFamily: 'Cairo',
-                                              fontSize: 12,
-                                              color: Colors.grey[600],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // Details button
-                                OutlinedButton(
-                                  onPressed: () {},
-                                  style: OutlinedButton.styleFrom(
-                                    side: const BorderSide(color: Color(0xFF4DB6AC)),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                  child: const Text(
-                                    'التفاصيل',
-                                    style: TextStyle(
-                                      fontFamily: 'Cairo',
-                                      fontSize: 12,
-                                      color: Color(0xFF4DB6AC),
-                                    ),
-                                  ),
-                                ),
-                                // Participants avatars
+                                const SizedBox(height: 4),
                                 Row(
+                                  textDirection: TextDirection.rtl,
                                   children: [
-                                    _buildAvatar('ص'),
-                                    _buildAvatar('ع'),
-                                    _buildAvatar('+3'),
+                                    Icon(Icons.access_time, size: 14, color: Colors.white.withOpacity(0.8)),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      '10:00 صباحاً - القاعة الكبرى',
+                                      textDirection: TextDirection.rtl,
+                                      style: TextStyle(
+                                        fontFamily: 'Cairo',
+                                        fontSize: 12,
+                                        color: Colors.white.withOpacity(0.8),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Details button
+                          OutlinedButton(
+                            onPressed: () {},
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(color: Colors.white),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            child: const Text(
+                              'التفاصيل',
+                              style: TextStyle(
+                                fontFamily: 'Cairo',
+                                fontSize: 12,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          // Participants avatars
+                          Row(
+                            children: [
+                              _buildAvatarWhite('ص'),
+                              _buildAvatarWhite('ع'),
+                              _buildAvatarWhite('+3'),
+                            ],
+                          ),
+                        ],
                       ),
                     ],
                   ),
