@@ -24,23 +24,37 @@ class ApiService {
   // Get token from storage
   Future<String?> getToken() async {
     if (_token != null) return _token;
-    final prefs = await SharedPreferences.getInstance();
-    _token = prefs.getString('auth_token');
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      _token = prefs.getString('auth_token');
+    } catch (e) {
+      print('⚠️ SharedPreferences error (getToken): $e');
+    }
     return _token;
   }
 
   // Save token to storage
   Future<void> saveToken(String token) async {
     _token = token;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('auth_token', token);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('auth_token', token);
+      print('💾 Token saved successfully');
+    } catch (e) {
+      print('⚠️ SharedPreferences error (saveToken): $e');
+      // Token is still saved in memory
+    }
   }
 
   // Clear token (logout)
   Future<void> clearToken() async {
     _token = null;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('auth_token');
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('auth_token');
+    } catch (e) {
+      print('⚠️ SharedPreferences error (clearToken): $e');
+    }
   }
 
   // Login - Send OTP to phone
