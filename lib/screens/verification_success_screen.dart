@@ -28,7 +28,7 @@ class VerificationSuccessScreen extends StatelessWidget {
                     BoxShadow(
                       color: const Color(0xFFFFF2B1), // Yellow glow
                       spreadRadius: 15,
-                      blurRadius: 30,
+                      blurRadius: 120,
                       offset: const Offset(0, 0),
                     ),
                   ],
