@@ -36,7 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         'images/notfication.png',
                         width: 24,
                         height: 24,
-                        color: Colors.grey[700],
                       ),
                     ),
                     // Logo and title
@@ -208,7 +207,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         'images/shiled.png',
                         width: 28,
                         height: 28,
-                        color: const Color(0xFFF2CF2F),
                       ),
                     ],
                   ),
@@ -463,7 +461,6 @@ class _HomeScreenState extends State<HomeScreen> {
               icon,
               width: 24,
               height: 24,
-              color: iconColor,
             ),
           ),
           const SizedBox(height: 12),
