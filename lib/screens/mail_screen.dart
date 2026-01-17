@@ -72,26 +72,37 @@ class _MailScreenState extends State<MailScreen> {
   List<Map<String, dynamic>> _parseDocuments(dynamic data) {
     List<Map<String, dynamic>> documents = [];
     
-    // Handle different response formats
+    // Handle different response formats - API returns: { documents: { data: [...] } }
     List<dynamic>? docList;
     if (data is List) {
       docList = data;
     } else if (data is Map) {
-      docList = data['documents'] ?? data['data'] ?? [];
+      // Check for paginated response: data['documents']['data']
+      if (data['documents'] is Map && data['documents']['data'] is List) {
+        docList = data['documents']['data'];
+      } else if (data['documents'] is List) {
+        docList = data['documents'];
+      } else if (data['data'] is List) {
+        docList = data['data'];
+      } else {
+        docList = [];
+      }
     }
+    
+    print('📧 Parsing ${docList?.length ?? 0} documents');
     
     if (docList != null) {
       for (var doc in docList) {
         documents.add({
           'id': doc['id'],
-          'sender': doc['sender_name'] ?? doc['sender'] ?? 'مرسل غير معروف',
-          'subject': doc['title'] ?? doc['subject'] ?? 'بدون عنوان',
+          'sender': doc['issuer'] ?? doc['sender_name'] ?? doc['sender'] ?? 'مرسل غير معروف',
+          'subject': doc['subject'] ?? doc['title'] ?? 'بدون عنوان',
           'preview': doc['content'] ?? doc['preview'] ?? doc['body'] ?? '',
-          'time': _formatTime(doc['created_at'] ?? doc['date']),
-          'isRead': doc['is_read'] == true || doc['is_read'] == 1,
-          'isConfirmed': doc['is_confirmed'] == true || doc['is_confirmed'] == 1,
+          'time': doc['document_time'] ?? _formatTime(doc['document_date'] ?? doc['created_at'] ?? doc['date']),
+          'isRead': doc['read'] == true || doc['read'] == 1 || doc['is_read'] == true || doc['is_read'] == 1,
+          'isConfirmed': doc['confirmed'] == true || doc['confirmed'] == 1 || doc['is_confirmed'] == true || doc['is_confirmed'] == 1,
           'priority': doc['priority'],
-          'hasIcon': doc['sender_type'] == 'organization',
+          'hasIcon': true, // Assume organization sender for now
           'rawData': doc,
         });
       }
