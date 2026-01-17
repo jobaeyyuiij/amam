@@ -1,0 +1,363 @@
+{
+	"info": {
+		"_postman_id": "a06aa040-c19a-4740-9374-ce6d9bcbe966",
+		"name": "ta3mem",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8125963",
+		"_collection_link": "https://gold-desert-52214.postman.co/workspace/test~632062ae-d82a-4cb3-961f-54bfc61101d0/collection/8125963-a06aa040-c19a-4740-9374-ce6d9bcbe966?action=share&source=collection_link&creator=8125963"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "phone",
+							"value": "9647712345671",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://tamem.gamcoiraq.com/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"tamem",
+						"gamcoiraq",
+						"com"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verify_otp",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "phone",
+							"value": "9647712345671",
+							"type": "text"
+						},
+						{
+							"key": "otp_code",
+							"value": "8755",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://tamem.gamcoiraq.com/api/auth/verify-otp",
+					"protocol": "https",
+					"host": [
+						"tamem",
+						"gamcoiraq",
+						"com"
+					],
+					"path": [
+						"api",
+						"auth",
+						"verify-otp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "index",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 5|WtzNHGs7l1wafimRwlYRsYwRd9vqovCXPsdtfgpP017194c9",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://tamem.gamcoiraq.com/api/index",
+					"protocol": "https",
+					"host": [
+						"tamem",
+						"gamcoiraq",
+						"com"
+					],
+					"path": [
+						"api",
+						"index"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all_documents",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 5|WtzNHGs7l1wafimRwlYRsYwRd9vqovCXPsdtfgpP017194c9",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://tamem.gamcoiraq.com/api/all/documents",
+					"protocol": "https",
+					"host": [
+						"tamem",
+						"gamcoiraq",
+						"com"
+					],
+					"path": [
+						"api",
+						"all",
+						"documents"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "read_documents",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 2|ZgSE6W6SXxNwFI8QWhSlLBBHcw1MX26Rejg2WUjw368cb835",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://tamem.gamcoiraq.com/api/read/documents",
+					"protocol": "https",
+					"host": [
+						"tamem",
+						"gamcoiraq",
+						"com"
+					],
+					"path": [
+						"api",
+						"read",
+						"documents"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "unread_documents",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 5|WtzNHGs7l1wafimRwlYRsYwRd9vqovCXPsdtfgpP017194c9",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://tamem.gamcoiraq.com/api/unread/documents",
+					"protocol": "https",
+					"host": [
+						"tamem",
+						"gamcoiraq",
+						"com"
+					],
+					"path": [
+						"api",
+						"unread",
+						"documents"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Document_details Or SendOTP",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 5|WtzNHGs7l1wafimRwlYRsYwRd9vqovCXPsdtfgpP017194c9",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "document_id",
+							"value": "38",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://tamem.gamcoiraq.com/api/document/send-otp",
+					"protocol": "https",
+					"host": [
+						"tamem",
+						"gamcoiraq",
+						"com"
+					],
+					"path": [
+						"api",
+						"document",
+						"send-otp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verifyDocumentOtp",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 5|WtzNHGs7l1wafimRwlYRsYwRd9vqovCXPsdtfgpP017194c9",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "document_id",
+							"value": "38",
+							"type": "text"
+						},
+						{
+							"key": "otp_code",
+							"value": "7769",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://tamem.gamcoiraq.com/api/document/verify-otp",
+					"protocol": "https",
+					"host": [
+						"tamem",
+						"gamcoiraq",
+						"com"
+					],
+					"path": [
+						"api",
+						"document",
+						"verify-otp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "confirmDocumentReceipt",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 5|WtzNHGs7l1wafimRwlYRsYwRd9vqovCXPsdtfgpP017194c9",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "document_id",
+							"value": "38",
+							"type": "text"
+						},
+						{
+							"key": "confirm",
+							"value": "true",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://tamem.gamcoiraq.com/api/document/confirm-receipt",
+					"protocol": "https",
+					"host": [
+						"tamem",
+						"gamcoiraq",
+						"com"
+					],
+					"path": [
+						"api",
+						"document",
+						"confirm-receipt"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

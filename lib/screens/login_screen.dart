@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'otp_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -146,7 +147,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ElevatedButton(
                     onPressed: _isButtonEnabled
                         ? () {
-                            // TODO: Send OTP
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => OtpScreen(
+                                  phoneNumber: _phoneController.text,
+                                ),
+                              ),
+                            );
                           }
                         : null,
                     style: ElevatedButton.styleFrom(
