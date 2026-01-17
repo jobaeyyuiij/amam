@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'otp_screen.dart';
+import '../services/api_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,7 +12,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _phoneController = TextEditingController();
+  final ApiService _apiService = ApiService();
   bool _isButtonEnabled = false;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -27,6 +30,49 @@ class _LoginScreenState extends State<LoginScreen> {
   void dispose() {
     _phoneController.dispose();
     super.dispose();
+  }
+
+  Future<void> _handleLogin() async {
+    if (_isLoading) return;
+
+    setState(() => _isLoading = true);
+
+    // Format phone number - add 964 prefix if needed
+    String phone = _phoneController.text.trim();
+    if (phone.startsWith('0')) {
+      phone = '964${phone.substring(1)}';
+    } else if (!phone.startsWith('964')) {
+      phone = '964$phone';
+    }
+
+    final response = await _apiService.login(phone);
+
+    setState(() => _isLoading = false);
+
+    if (response.success) {
+      if (mounted) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => OtpScreen(
+              phoneNumber: phone,
+            ),
+          ),
+        );
+      }
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              response.message ?? 'حدث خطأ، يرجى المحاولة مرة أخرى',
+              textDirection: TextDirection.rtl,
+              style: const TextStyle(fontFamily: 'Cairo'),
+            ),
+            backgroundColor: Colors.red[400],
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -145,17 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   height: 56,
                   child: ElevatedButton(
-                    onPressed: _isButtonEnabled
-                        ? () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => OtpScreen(
-                                  phoneNumber: _phoneController.text,
-                                ),
-                              ),
-                            );
-                          }
-                        : null,
+                    onPressed: (_isButtonEnabled && !_isLoading) ? _handleLogin : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _isButtonEnabled ? const Color(0xFF4DB6AC) : Colors.grey[300],
                       foregroundColor: _isButtonEnabled ? Colors.white : Colors.grey[500],
@@ -166,14 +202,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       elevation: 0,
                     ),
-                    child: const Text(
-                      'إرسال رمز التحقق',
-                      style: TextStyle(
-                        fontFamily: 'Cairo',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    child: _isLoading
+                        ? const SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2.5,
+                            ),
+                          )
+                        : const Text(
+                            'إرسال رمز التحقق',
+                            style: TextStyle(
+                              fontFamily: 'Cairo',
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                   ),
                 ),
                 const SizedBox(height: 16),

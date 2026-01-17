@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'verification_success_screen.dart';
+import '../services/api_service.dart';
 
 class OtpScreen extends StatefulWidget {
   final String phoneNumber;
@@ -15,7 +16,9 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   final List<TextEditingController> _controllers = List.generate(4, (_) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
+  final ApiService _apiService = ApiService();
   bool _isButtonEnabled = false;
+  bool _isLoading = false;
   int _secondsRemaining = 120; // 2 minutes
   Timer? _timer;
 
@@ -48,12 +51,78 @@ class _OtpScreenState extends State<OtpScreen> {
     });
   }
 
-  void _resendOtp() {
+  Future<void> _resendOtp() async {
     setState(() {
       _secondsRemaining = 120;
+      _isLoading = true;
     });
     _startTimer();
-    // TODO: Call API to resend OTP
+    
+    final response = await _apiService.login(widget.phoneNumber);
+    
+    setState(() => _isLoading = false);
+    
+    if (response.success) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'تم إعادة إرسال رمز التحقق',
+              textDirection: TextDirection.rtl,
+              style: TextStyle(fontFamily: 'Cairo'),
+            ),
+            backgroundColor: Color(0xFF4DB6AC),
+          ),
+        );
+      }
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              response.message ?? 'حدث خطأ، يرجى المحاولة مرة أخرى',
+              textDirection: TextDirection.rtl,
+              style: const TextStyle(fontFamily: 'Cairo'),
+            ),
+            backgroundColor: Colors.red[400],
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _handleVerifyOtp() async {
+    if (_isLoading) return;
+
+    setState(() => _isLoading = true);
+
+    String otp = _controllers.map((c) => c.text).join();
+    final response = await _apiService.verifyOtp(widget.phoneNumber, otp);
+
+    setState(() => _isLoading = false);
+
+    if (response.success) {
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const VerificationSuccessScreen(),
+          ),
+        );
+      }
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              response.message ?? 'رمز التحقق غير صحيح',
+              textDirection: TextDirection.rtl,
+              style: const TextStyle(fontFamily: 'Cairo'),
+            ),
+            backgroundColor: Colors.red[400],
+          ),
+        );
+      }
+    }
   }
 
   String _formatTime(int seconds) {
@@ -150,17 +219,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   width: double.infinity,
                   height: 56,
                   child: ElevatedButton(
-                    onPressed: _isButtonEnabled
-                        ? () {
-                            String otp = _controllers.map((c) => c.text).join();
-                            // Navigate to success screen
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => const VerificationSuccessScreen(),
-                              ),
-                            );
-                          }
-                        : null,
+                    onPressed: (_isButtonEnabled && !_isLoading) ? _handleVerifyOtp : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _isButtonEnabled ? const Color(0xFF4DB6AC) : Colors.grey[300],
                       foregroundColor: _isButtonEnabled ? Colors.white : Colors.grey[500],
@@ -171,14 +230,23 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                       elevation: 0,
                     ),
-                    child: const Text(
-                      'تأكيد',
-                      style: TextStyle(
-                        fontFamily: 'Cairo',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    child: _isLoading
+                        ? const SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2.5,
+                            ),
+                          )
+                        : const Text(
+                            'تأكيد',
+                            style: TextStyle(
+                              fontFamily: 'Cairo',
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                   ),
                 ),
                 const SizedBox(height: 24),
