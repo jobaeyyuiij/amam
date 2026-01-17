@@ -37,20 +37,34 @@ class ApiService {
   // Login - Send OTP to phone
   Future<ApiResponse> login(String phone) async {
     try {
+      print('🔄 Calling login API with phone: $phone');
+      
       final response = await http.post(
         Uri.parse('$baseUrl/auth/login'),
         body: {'phone': phone},
       );
 
-      final data = json.decode(response.body);
+      print('📡 Response status: ${response.statusCode}');
+      print('📦 Response body: ${response.body}');
+
+      // Try to parse response
+      dynamic data;
+      try {
+        data = json.decode(response.body);
+      } catch (e) {
+        data = {'message': response.body};
+      }
       
-      if (response.statusCode == 200) {
+      // Accept 200, 201, and other 2xx status codes as success
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        print('✅ Login successful');
         return ApiResponse(
           success: true,
           message: data['message'] ?? 'تم إرسال رمز التحقق بنجاح',
           data: data,
         );
       } else {
+        print('❌ Login failed: ${response.statusCode}');
         return ApiResponse(
           success: false,
           message: data['message'] ?? 'حدث خطأ، يرجى المحاولة مرة أخرى',
@@ -58,9 +72,10 @@ class ApiService {
         );
       }
     } catch (e) {
+      print('🚨 Exception: $e');
       return ApiResponse(
         success: false,
-        message: 'خطأ في الاتصال بالخادم',
+        message: 'خطأ في الاتصال بالخادم: $e',
         error: e.toString(),
       );
     }
