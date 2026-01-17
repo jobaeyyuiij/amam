@@ -15,8 +15,8 @@ class VerificationSuccessScreen extends StatelessWidget {
               const Spacer(flex: 2),
               // Success checkmark with circle and outer glow
               Container(
-                width: 120,
-                height: 120,
+                width: 140,
+                height: 140,
                 decoration: BoxDecoration(
                   color: const Color(0xFFF0FDF4), // Light mint background
                   shape: BoxShape.circle,
@@ -33,11 +33,22 @@ class VerificationSuccessScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: const Center(
-                  child: Icon(
-                    Icons.check,
-                    color: Color(0xFF4CAF50), // Green checkmark
-                    size: 60,
+                child: Center(
+                  // Small green circle with checkmark inside
+                  child: Container(
+                    width: 80,
+                    height: 80,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF4CAF50), // Green background
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 50,
+                      ),
+                    ),
                   ),
                 ),
               ),
