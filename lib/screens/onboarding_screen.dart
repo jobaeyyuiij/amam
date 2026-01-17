@@ -38,10 +38,12 @@ class OnboardingScreen extends StatelessWidget {
               ),
               const SizedBox(height: 40),
               // Logo - centered
-              Image.asset(
-                'images/logo.png',
-                width: 250,
-                height: 250,
+              Center(
+                child: Image.asset(
+                  'images/logo.png',
+                  width: 300,
+                  height: 300,
+                ),
               ),
               const Spacer(flex: 3),
               // Bottom text
