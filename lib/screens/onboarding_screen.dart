@@ -13,7 +13,7 @@ class OnboardingScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(flex: 2),
-              // Main title
+              // the main title
               Text(
                 'اعمام',
                 textDirection: TextDirection.rtl,
@@ -25,39 +25,39 @@ class OnboardingScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              // Subtitle
+              // subtitle
               Text(
                 'نظام البريد الداخلي',
                 textDirection: TextDirection.rtl,
                 style: const TextStyle(
                   fontFamily: 'Cairo',
-                  fontSize: 16,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600, // semibold
                   color: Colors.grey,
                 ),
               ),
               const SizedBox(height: 40),
-              // Logo - centered
+              //logo center
               Center(
                 child: Image.asset(
                   'images/logo.png',
-                  width: 300,
-                  height: 300,
+                  width: 350,
+                  height: 350,
                 ),
               ),
               const Spacer(flex: 3),
-              // Bottom text
+              // text in bottom
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Column(
                   children: [
                     Text(
-                      'الشركة المتحدة لنقل الركاب',
+                      'الشركة العامة لنقل البري',
                       textDirection: TextDirection.rtl,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontFamily: 'Cairo',
-                        fontSize: 14,
+                        fontSize: 18,
                         fontWeight: FontWeight.w600, // semibold
                         color: Colors.grey,
                       ),
@@ -69,8 +69,8 @@ class OnboardingScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontFamily: 'Cairo',
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
                         color: Colors.grey,
                       ),
                     ),
