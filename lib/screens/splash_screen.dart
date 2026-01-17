@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
 import 'onboarding_screen.dart';
 
@@ -13,22 +14,33 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    // Hide status bar for fullscreen splash
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+    
     Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
-      );
+      if (mounted) {
+        // Restore status bar
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+        );
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('images/splash.png'),
-            fit: BoxFit.cover,
-          ),
+      body: SizedBox.expand(
+        child: Image.asset(
+          'images/splash.png',
+          fit: BoxFit.cover,
         ),
       ),
     );
