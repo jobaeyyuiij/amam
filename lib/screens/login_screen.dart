@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -106,6 +107,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   textDirection: TextDirection.ltr,
                   keyboardType: TextInputType.phone,
                   maxLength: 11,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                   style: const TextStyle(
                     fontFamily: 'Cairo',
                     fontSize: 16,
