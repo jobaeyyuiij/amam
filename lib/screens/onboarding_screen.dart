@@ -32,7 +32,7 @@ class OnboardingScreen extends StatelessWidget {
                 style: const TextStyle(
                   fontFamily: 'Cairo',
                   fontSize: 16,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w600, // semibold
                   color: Colors.grey,
                 ),
               ),
@@ -47,16 +47,32 @@ class OnboardingScreen extends StatelessWidget {
               // Bottom text
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                child: Text(
-                  'الشركة المتحدة لنقل الركاب\nجمهورية العراق - وزارة النقل',
-                  textDirection: TextDirection.rtl,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontFamily: 'Cairo',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.grey,
-                  ),
+                child: Column(
+                  children: [
+                    Text(
+                      'الشركة المتحدة لنقل الركاب',
+                      textDirection: TextDirection.rtl,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontFamily: 'Cairo',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600, // semibold
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'جمهورية العراق - وزارة النقل',
+                      textDirection: TextDirection.rtl,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontFamily: 'Cairo',
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
