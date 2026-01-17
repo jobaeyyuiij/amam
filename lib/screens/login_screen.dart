@@ -43,14 +43,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: 160,
                   height: 160,
                   decoration: const BoxDecoration(
-                    color: Color(0xFFFDD835), // Golden yellow
+                    color: Color(0xFFFFF9C4), // Light yellow background
                     shape: BoxShape.circle,
                   ),
                   child: Center(
-                    child: Image.asset(
-                      'images/account.png',
-                      width: 80,
-                      height: 80,
+                    child: ColorFiltered(
+                      colorFilter: const ColorFilter.mode(
+                        Color(0xFFFDD835), // Golden color for icon
+                        BlendMode.srcIn,
+                      ),
+                      child: Image.asset(
+                        'images/account.png',
+                        width: 80,
+                        height: 80,
+                      ),
                     ),
                   ),
                 ),
