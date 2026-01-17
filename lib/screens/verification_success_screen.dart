@@ -9,28 +9,31 @@ class VerificationSuccessScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             children: [
               const Spacer(flex: 2),
-              // Success icon with green circle
+              // Success checkmark with green circle and outer glow
               Container(
-                width: 140,
-                height: 140,
+                width: 120,
+                height: 120,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFE8F5E9), // Light green background
+                  color: const Color(0xFF4CAF50), // Solid green background
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color(0xFF4CAF50), // Green border
-                    width: 3,
-                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF4CAF50).withOpacity(0.3),
+                      spreadRadius: 15,
+                      blurRadius: 30,
+                      offset: const Offset(0, 0),
+                    ),
+                  ],
                 ),
-                child: Center(
-                  child: Image.asset(
-                    'images/suceess.png',
-                    width: 70,
-                    height: 70,
-                    color: const Color(0xFF4CAF50), // Green color
+                child: const Center(
+                  child: Icon(
+                    Icons.check,
+                    color: Colors.white,
+                    size: 60,
                   ),
                 ),
               ),
@@ -60,57 +63,61 @@ class VerificationSuccessScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              // Welcome text
-              RichText(
+              // Welcome text with underlined "اعمام"
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 textDirection: TextDirection.rtl,
-                text: const TextSpan(
-                  style: TextStyle(
-                    fontFamily: 'Cairo',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
+                children: [
+                  Text(
+                    'مرحباً بك في تطبيق ',
+                    textDirection: TextDirection.rtl,
+                    style: TextStyle(
+                      fontFamily: 'Cairo',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey[600],
+                    ),
                   ),
-                  children: [
-                    TextSpan(
-                      text: 'مرحباً بك في تطبيق ',
-                      style: TextStyle(color: Colors.grey),
+                  Text(
+                    'اعمام',
+                    style: TextStyle(
+                      fontFamily: 'Cairo',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF4DB6AC),
+                      decoration: TextDecoration.underline,
+                      decorationColor: const Color(0xFF4DB6AC),
                     ),
-                    TextSpan(
-                      text: 'اعمام',
-                      style: TextStyle(
-                        color: Color(0xFF4DB6AC),
-                        fontWeight: FontWeight.w600,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               const Spacer(flex: 2),
               // Security card
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: Colors.grey[200]!),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.1),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
                 ),
                 child: Row(
                   textDirection: TextDirection.rtl,
                   children: [
-                    // Verify icon
-                    Image.asset(
-                      'images/verfiy.png',
+                    // Green check circle
+                    Container(
                       width: 32,
                       height: 32,
-                      color: const Color(0xFF4CAF50),
+                      decoration: const BoxDecoration(
+                        color: Color(0xFF4CAF50),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Center(
+                        child: Icon(
+                          Icons.check,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 12),
                     // Text content
@@ -128,6 +135,7 @@ class VerificationSuccessScreen extends StatelessWidget {
                               color: Colors.black,
                             ),
                           ),
+                          const SizedBox(height: 4),
                           Text(
                             'يمكنك الوصول إلى جميع خدمات التطبيق و الاستفادة بمميزاته.',
                             textDirection: TextDirection.rtl,
@@ -142,17 +150,17 @@ class VerificationSuccessScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 12),
-                    // Shield icon
+                    // Shield icon with light green background
                     Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE8F5E9),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: Image.asset(
                         'images/shiled.png',
-                        width: 28,
-                        height: 28,
+                        width: 24,
+                        height: 24,
                         color: const Color(0xFF4CAF50),
                       ),
                     ),
@@ -186,7 +194,7 @@ class VerificationSuccessScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 40),
             ],
           ),
         ),
