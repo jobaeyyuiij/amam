@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'mail_screen.dart';
+import '../services/api_service.dart';
 
 class MainContainer extends StatefulWidget {
   const MainContainer({super.key});
@@ -70,8 +71,29 @@ class _MainContainerState extends State<MainContainer> {
 }
 
 // Home content extracted from HomeScreen
-class _HomeContent extends StatelessWidget {
+class _HomeContent extends StatefulWidget {
   const _HomeContent();
+
+  @override
+  State<_HomeContent> createState() => _HomeContentState();
+}
+
+class _HomeContentState extends State<_HomeContent> {
+  final ApiService _apiService = ApiService();
+  String _userName = 'المستخدم';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserName();
+  }
+
+  void _loadUserName() {
+    final name = _apiService.getUserName();
+    if (name != null && name.isNotEmpty) {
+      setState(() => _userName = name);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,12 +145,12 @@ class _HomeContent extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               // Welcome message
-              const Align(
+              Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'أهلاً وسهلاً، أحمد محمد',
+                  'أهلاً وسهلاً، $_userName',
                   textDirection: TextDirection.rtl,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'Cairo',
                     fontSize: 20,
                     fontWeight: FontWeight.w700,

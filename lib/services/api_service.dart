@@ -33,12 +33,21 @@ class ApiService {
     return _token;
   }
 
-  // Save token to storage
-  Future<void> saveToken(String token) async {
+  String? _userName;
+
+  // Get user name
+  String? getUserName() => _userName;
+
+  // Save token and user data to storage
+  Future<void> saveToken(String token, {String? userName}) async {
     _token = token;
+    _userName = userName;
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('auth_token', token);
+      if (userName != null) {
+        await prefs.setString('user_name', userName);
+      }
       print('💾 Token saved successfully');
     } catch (e) {
       print('⚠️ SharedPreferences error (saveToken): $e');
@@ -46,12 +55,26 @@ class ApiService {
     }
   }
 
+  // Load user name from storage
+  Future<String?> loadUserName() async {
+    if (_userName != null) return _userName;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      _userName = prefs.getString('user_name');
+    } catch (e) {
+      print('⚠️ SharedPreferences error (loadUserName): $e');
+    }
+    return _userName;
+  }
+
   // Clear token (logout)
   Future<void> clearToken() async {
     _token = null;
+    _userName = null;
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove('auth_token');
+      await prefs.remove('user_name');
     } catch (e) {
       print('⚠️ SharedPreferences error (clearToken): $e');
     }
@@ -130,9 +153,10 @@ class ApiService {
       }
       
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        // Save token if provided
+        // Save token and user name if provided
         if (data['token'] != null) {
-          await saveToken(data['token']);
+          String? userName = data['user']?['name'];
+          await saveToken(data['token'], userName: userName);
         }
         print('✅ OTP verified successfully');
         return ApiResponse(
