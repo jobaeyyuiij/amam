@@ -42,8 +42,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   width: 160,
                   height: 160,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFFF9C4), // Light yellow background
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFFDD835), // Golden yellow
                     shape: BoxShape.circle,
                   ),
                   child: Center(
@@ -99,6 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _phoneController,
                   textDirection: TextDirection.ltr,
                   keyboardType: TextInputType.phone,
+                  maxLength: 11,
                   style: const TextStyle(
                     fontFamily: 'Cairo',
                     fontSize: 16,
@@ -111,6 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     filled: true,
                     fillColor: Colors.grey[50],
+                    counterText: '',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(color: Colors.grey[300]!),
@@ -121,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: Color(0xFF4DB6AC), width: 2),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
                     ),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   ),
