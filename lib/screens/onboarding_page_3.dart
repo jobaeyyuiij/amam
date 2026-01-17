@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'onboarding_page_3.dart';
 
-class OnboardingPage2 extends StatelessWidget {
-  const OnboardingPage2({super.key});
+class OnboardingPage3 extends StatelessWidget {
+  const OnboardingPage3({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +15,14 @@ class OnboardingPage2 extends StatelessWidget {
               const Spacer(flex: 2),
               // Illustration
               Image.asset(
-                'images/2.png',
+                'images/3.png',
                 width: 280,
                 height: 280,
               ),
               const SizedBox(height: 60),
               // Title
               const Text(
-                'حماية وأمان عالي',
+                'جاهز للاستخدام',
                 textDirection: TextDirection.rtl,
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -36,7 +35,7 @@ class OnboardingPage2 extends StatelessWidget {
               const SizedBox(height: 16),
               // Description
               const Text(
-                'يتم تأكيد استلام كل رسالة\nمن خلال رمز تحقق (OTP) لضمان الموثوقية',
+                'سجل دخولك باستخدام رقم الجوال\nوابدأ باستلام البريد الرسمي الخاص بك',
                 textDirection: TextDirection.rtl,
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -54,21 +53,19 @@ class OnboardingPage2 extends StatelessWidget {
                 children: [
                   _buildPageIndicator(false),
                   const SizedBox(width: 8),
-                  _buildPageIndicator(true),
-                  const SizedBox(width: 8),
                   _buildPageIndicator(false),
+                  const SizedBox(width: 8),
+                  _buildPageIndicator(true),
                 ],
               ),
               const SizedBox(height: 32),
-              // Next button
+              // Start button
               SizedBox(
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const OnboardingPage3()),
-                    );
+                    // TODO: Navigate to login/main app
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF4DB6AC),
@@ -79,7 +76,7 @@ class OnboardingPage2 extends StatelessWidget {
                     elevation: 0,
                   ),
                   child: const Text(
-                    'التالي',
+                    'ابدأ الآن',
                     style: TextStyle(
                       fontFamily: 'Cairo',
                       fontSize: 18,
@@ -89,21 +86,6 @@ class OnboardingPage2 extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              // Skip button
-              TextButton(
-                onPressed: () {
-                  // TODO: Navigate to main app
-                },
-                child: const Text(
-                  'تخطي',
-                  style: TextStyle(
-                    fontFamily: 'Cairo',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey,
-                  ),
-                ),
-              ),
             ],
           ),
         ),
