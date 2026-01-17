@@ -34,26 +34,37 @@ class _MailScreenState extends State<MailScreen> {
     });
 
     try {
+      print('📧 Loading documents...');
+      
       // Load all documents
       final allResponse = await _apiService.getAllDocuments();
+      print('📧 All docs response: success=${allResponse.success}, data=${allResponse.data}');
+      
       final readResponse = await _apiService.getReadDocuments();
+      print('📧 Read docs response: success=${readResponse.success}, data=${readResponse.data}');
+      
       final unreadResponse = await _apiService.getUnreadDocuments();
+      print('📧 Unread docs response: success=${unreadResponse.success}, data=${unreadResponse.data}');
 
       if (allResponse.success && allResponse.data != null) {
         _allMails = _parseDocuments(allResponse.data);
+        print('📧 Parsed all mails: ${_allMails.length}');
       }
       if (readResponse.success && readResponse.data != null) {
         _readMails = _parseDocuments(readResponse.data);
+        print('📧 Parsed read mails: ${_readMails.length}');
       }
       if (unreadResponse.success && unreadResponse.data != null) {
         _unreadMails = _parseDocuments(unreadResponse.data);
+        print('📧 Parsed unread mails: ${_unreadMails.length}');
       }
 
       setState(() => _isLoading = false);
     } catch (e) {
+      print('🚨 Error loading documents: $e');
       setState(() {
         _isLoading = false;
-        _error = 'حدث خطأ في تحميل البيانات';
+        _error = 'حدث خطأ في تحميل البيانات: $e';
       });
     }
   }
