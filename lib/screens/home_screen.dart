@@ -239,16 +239,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
+                              color: Colors.white.withOpacity(0.15),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: const Text(
                               'أكتوبر 2025',
                               style: TextStyle(
                                 fontFamily: 'Cairo',
-                                fontSize: 12,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white,
                               ),
@@ -260,32 +260,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                 'تقويم الأحداث',
                                 style: TextStyle(
                                   fontFamily: 'Cairo',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
                                   color: Colors.white,
                                 ),
                               ),
                               const SizedBox(width: 8),
-                              Icon(
-                                Icons.calendar_today,
-                                color: Colors.white.withOpacity(0.8),
-                                size: 20,
+                              Image.asset(
+                                'images/cal.png',
+                                width: 24,
+                                height: 24,
                               ),
                             ],
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 24),
                       // Event content
                       Row(
                         textDirection: TextDirection.rtl,
                         children: [
-                          // Date box
+                          // Date box on right
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(12),
                             ),
                             child: const Column(
                               children: [
@@ -293,7 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   'الخميس',
                                   style: TextStyle(
                                     fontFamily: 'Cairo',
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.white,
                                   ),
@@ -302,7 +302,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   '24',
                                   style: TextStyle(
                                     fontFamily: 'Cairo',
-                                    fontSize: 24,
+                                    fontSize: 28,
                                     fontWeight: FontWeight.w700,
                                     color: Colors.white,
                                   ),
@@ -321,24 +321,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                   textDirection: TextDirection.rtl,
                                   style: TextStyle(
                                     fontFamily: 'Cairo',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
                                     color: Colors.white,
                                   ),
                                 ),
-                                const SizedBox(height: 4),
+                                const SizedBox(height: 8),
                                 Row(
                                   textDirection: TextDirection.rtl,
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Icon(Icons.access_time, size: 14, color: Colors.white.withOpacity(0.8)),
-                                    const SizedBox(width: 4),
+                                    Icon(Icons.access_time, size: 16, color: Colors.white.withOpacity(0.9)),
+                                    const SizedBox(width: 6),
                                     Text(
                                       '10:00 صباحاً - القاعة الكبرى',
                                       textDirection: TextDirection.rtl,
                                       style: TextStyle(
                                         fontFamily: 'Cairo',
-                                        fontSize: 12,
-                                        color: Colors.white.withOpacity(0.8),
+                                        fontSize: 14,
+                                        color: Colors.white.withOpacity(0.9),
                                       ),
                                     ),
                                   ],
@@ -348,35 +349,39 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 20),
                       Row(
+                        textDirection: TextDirection.rtl,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Details button
-                          OutlinedButton(
+                          // Participants avatars on right
+                          Row(
+                            children: [
+                              _buildAvatarWhite('م'),
+                              _buildAvatarWhite('ع'),
+                              _buildAvatarWhite('+3'),
+                            ],
+                          ),
+                          // Details button - green filled
+                          ElevatedButton(
                             onPressed: () {},
-                            style: OutlinedButton.styleFrom(
-                              side: const BorderSide(color: Colors.white),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF2E7D6F),
+                              foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(8),
                               ),
+                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                              elevation: 0,
                             ),
                             child: const Text(
                               'التفاصيل',
                               style: TextStyle(
                                 fontFamily: 'Cairo',
-                                fontSize: 12,
-                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                          ),
-                          // Participants avatars
-                          Row(
-                            children: [
-                              _buildAvatarWhite('ص'),
-                              _buildAvatarWhite('ع'),
-                              _buildAvatarWhite('+3'),
-                            ],
                           ),
                         ],
                       ),
