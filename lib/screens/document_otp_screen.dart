@@ -108,10 +108,18 @@ class _DocumentOtpScreenState extends State<DocumentOtpScreen> {
     setState(() => _isLoading = false);
 
     if (response.success) {
+      // Mark document as read locally
+      final updatedData = Map<String, dynamic>.from(widget.documentData ?? {});
+      updatedData['isRead'] = true;
+      if (updatedData['rawData'] != null) {
+        updatedData['rawData'] = Map<String, dynamic>.from(updatedData['rawData']);
+        updatedData['rawData']['read'] = true;
+      }
+      
       if (mounted) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => MailDetailScreen(mail: widget.documentData),
+            builder: (context) => MailDetailScreen(mail: updatedData),
           ),
         );
       }

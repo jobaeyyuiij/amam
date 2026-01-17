@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'mail_confirm_screen.dart';
 
 class MailDetailScreen extends StatelessWidget {
   final Map<String, dynamic>? mail;
@@ -7,6 +8,15 @@ class MailDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Extract data from mail object
+    final sender = mail?['sender'] ?? mail?['rawData']?['issuer'] ?? 'مرسل غير معروف';
+    final subject = mail?['subject'] ?? mail?['rawData']?['subject'] ?? 'بدون عنوان';
+    final content = mail?['preview'] ?? mail?['rawData']?['content'] ?? 'لا يوجد محتوى';
+    final time = mail?['time'] ?? mail?['rawData']?['document_time'] ?? '';
+    final date = mail?['rawData']?['document_date'] ?? '';
+    final documentId = mail?['id'] ?? mail?['rawData']?['id'];
+    final isConfirmed = mail?['isConfirmed'] == true || mail?['rawData']?['confirmed'] == true;
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       body: SafeArea(
@@ -58,12 +68,13 @@ class MailDetailScreen extends StatelessWidget {
                             width: 50,
                             height: 50,
                             decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(25),
+                              color: const Color(0xFFE0F7FA),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(25),
-                              child: Icon(Icons.person, color: Colors.grey[400], size: 30),
+                            child: const Icon(
+                              Icons.business,
+                              color: Color(0xFF4DB6AC),
+                              size: 28,
                             ),
                           ),
                           const SizedBox(width: 12),
@@ -72,10 +83,10 @@ class MailDetailScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                const Text(
-                                  'قسم الموارد البشرية',
+                                Text(
+                                  sender,
                                   textDirection: TextDirection.rtl,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontFamily: 'Cairo',
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
@@ -84,7 +95,7 @@ class MailDetailScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  'تعميم إداري بخصوص العطلات الرسمية',
+                                  subject,
                                   textDirection: TextDirection.rtl,
                                   style: TextStyle(
                                     fontFamily: 'Cairo',
@@ -101,7 +112,7 @@ class MailDetailScreen extends StatelessWidget {
                                     Icon(Icons.access_time, size: 14, color: Colors.grey[500]),
                                     const SizedBox(width: 4),
                                     Text(
-                                      '10:00 صباحاً - القاعة الكبرى',
+                                      '$time - $date',
                                       textDirection: TextDirection.rtl,
                                       style: TextStyle(
                                         fontFamily: 'Cairo',
@@ -142,10 +153,7 @@ class MailDetailScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            'السادة الزملاء، تحية طيبة وبعد،\n\n'
-                            'يرجى العلم بأنه تقرر تعطيل الدوام الرسمي ليوم غد بمناسبة الأعياد الوطنية، وذلك استناداً إلى توجيهات الأمانة العامة لمجلس الوزراء.\n\n'
-                            'نرجو من كافة رؤساء الأقسام التنسيق لضمان سير العمل في الوحدات التي تتطلب تواجداً مستمراً، وتعميم هذا الكتاب على كافة الموظفين. سيتم استئناف الدوام الرسمي كالمعتاد بعد العطلة مباشرة.\n\n'
-                            'شاكرين تعاونكم والتزامكم.',
+                            content,
                             textDirection: TextDirection.rtl,
                             textAlign: TextAlign.right,
                             style: TextStyle(
@@ -160,132 +168,148 @@ class MailDetailScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    // Attachments section
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Colors.grey[200]!),
-                      ),
-                      child: Column(
-                        children: [
-                          // Header
-                          Row(
-                            textDirection: TextDirection.rtl,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[100],
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: const Text(
-                                  '2',
-                                  style: TextStyle(
-                                    fontFamily: 'Cairo',
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              const Text(
-                                'المرفقات',
-                                textDirection: TextDirection.rtl,
-                                style: TextStyle(
-                                  fontFamily: 'Cairo',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Icon(Icons.attach_file, color: Colors.grey[600], size: 20),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          // PDF attachment
-                          _buildAttachmentItem(
-                            fileName: 'قرار_مجلس_الوزراء.pdf',
-                            fileSize: 'MB 1.2',
-                            iconColor: const Color(0xFFE53935),
-                            iconBgColor: const Color(0xFFFFEBEE),
-                            isPdf: true,
-                          ),
-                          const Divider(height: 24),
-                          // Image attachment
-                          _buildAttachmentItem(
-                            fileName: 'جدول_المناوبات.jpg',
-                            fileSize: 'KB 850',
-                            iconColor: const Color(0xFF4CAF50),
-                            iconBgColor: const Color(0xFFE8F5E9),
-                            isPdf: false,
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Attachments section (if any)
+                    _buildAttachmentsSection(),
                     const SizedBox(height: 100),
                   ],
                 ),
               ),
             ),
-            // Bottom button
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 10,
-                    offset: const Offset(0, -5),
-                  ),
-                ],
-              ),
-              child: SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Handle confirm receipt
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          'تم تأكيد الاستلام بنجاح',
-                          textDirection: TextDirection.rtl,
-                          style: TextStyle(fontFamily: 'Cairo'),
-                        ),
-                        backgroundColor: Color(0xFF4DB6AC),
-                      ),
-                    );
-                    Navigator.of(context).pop();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF4DB6AC),
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+            // Bottom button - only show if not confirmed
+            if (!isConfirmed && documentId != null)
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 10,
+                      offset: const Offset(0, -5),
                     ),
-                    elevation: 0,
-                  ),
-                  child: const Text(
-                    'تأكيد الأستلام',
-                    style: TextStyle(
-                      fontFamily: 'Cairo',
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
+                  ],
+                ),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 56,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Navigate to confirm screen
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => MailConfirmScreen(
+                            mail: mail,
+                            documentId: documentId,
+                          ),
+                        ),
+                      ).then((confirmed) {
+                        if (confirmed == true) {
+                          Navigator.of(context).pop(true);
+                        }
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF4DB6AC),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: const Text(
+                      'تأكيد الأستلام',
+                      style: TextStyle(
+                        fontFamily: 'Cairo',
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildAttachmentsSection() {
+    // Check if there are attachments in the mail data
+    final attachments = mail?['rawData']?['attachments'] ?? [];
+    
+    if (attachments.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey[200]!),
+      ),
+      child: Column(
+        children: [
+          // Header
+          Row(
+            textDirection: TextDirection.rtl,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  '${attachments.length}',
+                  style: const TextStyle(
+                    fontFamily: 'Cairo',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              const Text(
+                'المرفقات',
+                textDirection: TextDirection.rtl,
+                style: TextStyle(
+                  fontFamily: 'Cairo',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Icon(Icons.attach_file, color: Colors.grey[600], size: 20),
+            ],
+          ),
+          const SizedBox(height: 16),
+          // Attachment items
+          ...List.generate(attachments.length, (index) {
+            final attachment = attachments[index];
+            final fileName = attachment['name'] ?? 'ملف';
+            final fileSize = attachment['size'] ?? '';
+            final isPdf = fileName.toLowerCase().endsWith('.pdf');
+            
+            return Column(
+              children: [
+                if (index > 0) const Divider(height: 24),
+                _buildAttachmentItem(
+                  fileName: fileName,
+                  fileSize: fileSize,
+                  iconColor: isPdf ? const Color(0xFFE53935) : const Color(0xFF4CAF50),
+                  iconBgColor: isPdf ? const Color(0xFFFFEBEE) : const Color(0xFFE8F5E9),
+                  isPdf: isPdf,
+                ),
+              ],
+            );
+          }),
+        ],
       ),
     );
   }
