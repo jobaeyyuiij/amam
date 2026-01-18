@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
+import 'mail_success_screen.dart';
 
 class MailConfirmScreen extends StatefulWidget {
   final Map<String, dynamic>? mail;
@@ -30,17 +31,15 @@ class _MailConfirmScreenState extends State<MailConfirmScreen> {
 
     if (response.success) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              response.message ?? 'تم تأكيد الاستلام بنجاح',
-              textDirection: TextDirection.rtl,
-              style: const TextStyle(fontFamily: 'Cairo'),
+        // Navigate to success screen
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => MailSuccessScreen(
+              mail: widget.mail,
+              transactionNumber: '#${widget.documentId}',
             ),
-            backgroundColor: const Color(0xFF4DB6AC),
           ),
         );
-        Navigator.of(context).pop(true); // Return true to indicate success
       }
     } else {
       if (mounted) {
@@ -70,6 +69,7 @@ class _MailConfirmScreenState extends State<MailConfirmScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                textDirection: TextDirection.rtl,
                 children: [
                   GestureDetector(
                     onTap: () => Navigator.of(context).pop(),

@@ -81,17 +81,75 @@ class _HomeContent extends StatefulWidget {
 class _HomeContentState extends State<_HomeContent> {
   final ApiService _apiService = ApiService();
   String _userName = 'المستخدم';
+  int _totalMails = 0;
+  int _readMails = 0;
+  int _unreadMails = 0;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _loadUserName();
+    _loadMailCounts();
   }
 
   void _loadUserName() {
     final name = _apiService.getUserName();
     if (name != null && name.isNotEmpty) {
       setState(() => _userName = name);
+    }
+  }
+
+  Future<void> _loadMailCounts() async {
+    try {
+      final allResponse = await _apiService.getAllDocuments();
+      final readResponse = await _apiService.getReadDocuments();
+      final unreadResponse = await _apiService.getUnreadDocuments();
+
+      int allCount = 0;
+      int readCount = 0;
+      int unreadCount = 0;
+
+      // Parse all documents count
+      if (allResponse.success && allResponse.data != null) {
+        if (allResponse.data['documents'] is Map && allResponse.data['documents']['total'] != null) {
+          allCount = allResponse.data['documents']['total'];
+        } else if (allResponse.data['documents'] is Map && allResponse.data['documents']['data'] is List) {
+          allCount = (allResponse.data['documents']['data'] as List).length;
+        }
+      }
+
+      // Parse read documents count
+      if (readResponse.success && readResponse.data != null) {
+        if (readResponse.data['documents'] is Map && readResponse.data['documents']['total'] != null) {
+          readCount = readResponse.data['documents']['total'];
+        } else if (readResponse.data['documents'] is Map && readResponse.data['documents']['data'] is List) {
+          readCount = (readResponse.data['documents']['data'] as List).length;
+        }
+      }
+
+      // Parse unread documents count
+      if (unreadResponse.success && unreadResponse.data != null) {
+        if (unreadResponse.data['documents'] is Map && unreadResponse.data['documents']['total'] != null) {
+          unreadCount = unreadResponse.data['documents']['total'];
+        } else if (unreadResponse.data['documents'] is Map && unreadResponse.data['documents']['data'] is List) {
+          unreadCount = (unreadResponse.data['documents']['data'] as List).length;
+        }
+      }
+
+      if (mounted) {
+        setState(() {
+          _totalMails = allCount;
+          _readMails = readCount;
+          _unreadMails = unreadCount;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error loading mail counts: $e');
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
@@ -181,7 +239,7 @@ class _HomeContentState extends State<_HomeContent> {
                     child: _buildStatsCard(
                       icon: 'images/kermkroh.png',
                       iconBgColor: const Color(0xFFFFF3E0),
-                      count: '10',
+                      count: _isLoading ? '...' : '$_unreadMails',
                       label: 'غير مقروءة',
                     ),
                   ),
@@ -191,7 +249,7 @@ class _HomeContentState extends State<_HomeContent> {
                     child: _buildStatsCard(
                       icon: 'images/mokeed.png',
                       iconBgColor: const Color(0xFFE8F5E9),
-                      count: '490',
+                      count: _isLoading ? '...' : '$_readMails',
                       label: 'المؤكد',
                     ),
                   ),
@@ -223,9 +281,9 @@ class _HomeContentState extends State<_HomeContent> {
                             color: Colors.grey[600],
                           ),
                         ),
-                        const Text(
-                          '500',
-                          style: TextStyle(
+                        Text(
+                          _isLoading ? '...' : '$_totalMails',
+                          style: const TextStyle(
                             fontFamily: 'Cairo',
                             fontSize: 28,
                             fontWeight: FontWeight.w700,

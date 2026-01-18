@@ -169,6 +169,7 @@ class _DocumentOtpScreenState extends State<DocumentOtpScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                textDirection: TextDirection.rtl,
                 children: [
                   GestureDetector(
                     onTap: () => Navigator.of(context).pop(),

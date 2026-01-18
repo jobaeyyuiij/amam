@@ -190,6 +190,7 @@ class _MailScreenState extends State<MailScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                textDirection: TextDirection.rtl,
                 children: [
                   const Icon(Icons.chevron_right, size: 28, color: Colors.grey),
                   const Text(
