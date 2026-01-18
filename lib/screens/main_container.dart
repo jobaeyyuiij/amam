@@ -28,7 +28,10 @@ class _MainContainerState extends State<MainContainer> {
   @override
   void initState() {
     super.initState();
-    _checkConnectivity();
+    // Delay initial check to ensure context is ready
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkConnectivity();
+    });
     _connectivitySubscription = Connectivity().onConnectivityChanged.listen(_onConnectivityChanged);
   }
 
@@ -39,8 +42,11 @@ class _MainContainerState extends State<MainContainer> {
   }
 
   Future<void> _checkConnectivity() async {
+    print('🌐 Checking connectivity...');
     final result = await Connectivity().checkConnectivity();
+    print('🌐 Connectivity result: $result');
     if (result.contains(ConnectivityResult.none)) {
+      print('🌐 No internet - showing dialog');
       _showNoInternetDialog();
     }
   }
