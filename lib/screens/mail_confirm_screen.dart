@@ -121,7 +121,7 @@ class _MailConfirmScreenState extends State<MailConfirmScreen> {
                           ),
                           child: Center(
                             child: Image.asset(
-                              'images/mail_success.png',
+                              'images/mail secsues .png',
                               width: 80,
                               height: 80,
                             ),
