@@ -13,18 +13,36 @@ class OtpScreen extends StatefulWidget {
   State<OtpScreen> createState() => _OtpScreenState();
 }
 
-class _OtpScreenState extends State<OtpScreen> {
+class _OtpScreenState extends State<OtpScreen> with SingleTickerProviderStateMixin {
   final List<TextEditingController> _controllers = List.generate(4, (_) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
   final ApiService _apiService = ApiService();
   bool _isButtonEnabled = false;
   bool _isLoading = false;
+  bool _hasError = false;
   int _secondsRemaining = 120; // 2 minutes
   Timer? _timer;
+  late AnimationController _shakeController;
+  late Animation<double> _shakeAnimation;
 
   @override
   void initState() {
     super.initState();
+    
+    // Initialize shake animation
+    _shakeController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    _shakeAnimation = Tween<double>(begin: 0, end: 10)
+        .chain(CurveTween(curve: Curves.elasticIn))
+        .animate(_shakeController)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _shakeController.reverse();
+        }
+      });
+    
     _startTimer();
     
     // Add listeners to all controllers
@@ -110,6 +128,17 @@ class _OtpScreenState extends State<OtpScreen> {
         );
       }
     } else {
+      // Show error animation
+      setState(() => _hasError = true);
+      _shakeController.forward(from: 0);
+      
+      // Clear error after 2 seconds
+      Future.delayed(const Duration(seconds: 2), () {
+        if (mounted) {
+          setState(() => _hasError = false);
+        }
+      });
+      
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -134,6 +163,7 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   void dispose() {
     _timer?.cancel();
+    _shakeController.dispose();
     for (var controller in _controllers) {
       controller.dispose();
     }
@@ -208,10 +238,19 @@ class _OtpScreenState extends State<OtpScreen> {
                   ),
                 ),
                 const SizedBox(height: 40),
-                // OTP Input boxes
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(4, (index) => _buildOtpBox(index)),
+                // OTP Input boxes with shake animation
+                AnimatedBuilder(
+                  animation: _shakeAnimation,
+                  builder: (context, child) {
+                    return Transform.translate(
+                      offset: Offset(_shakeAnimation.value, 0),
+                      child: child,
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(4, (index) => _buildOtpBox(index)),
+                  ),
                 ),
                 const SizedBox(height: 32),
                 // Verify button
@@ -352,18 +391,18 @@ class _OtpScreenState extends State<OtpScreen> {
         decoration: InputDecoration(
           counterText: '',
           filled: true,
-          fillColor: Colors.grey[50],
+          fillColor: _hasError ? Colors.red[50] : Colors.grey[50],
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.grey[300]!),
+            borderSide: BorderSide(color: _hasError ? Colors.red : Colors.grey[300]!),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.grey[300]!),
+            borderSide: BorderSide(color: _hasError ? Colors.red : Colors.grey[300]!, width: _hasError ? 2 : 1),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: Color(0xFFFDD835), width: 2),
+            borderSide: BorderSide(color: _hasError ? Colors.red : const Color(0xFFFDD835), width: 2),
           ),
         ),
         onChanged: (value) {
