@@ -93,10 +93,17 @@ class _HomeContentState extends State<_HomeContent> {
     _loadMailCounts();
   }
 
-  void _loadUserName() {
-    final name = _apiService.getUserName();
-    if (name != null && name.isNotEmpty) {
-      setState(() => _userName = name);
+  Future<void> _loadUserName() async {
+    // First try from memory
+    String? name = _apiService.getUserName();
+    
+    // If not in memory, load from SharedPreferences
+    if (name == null || name.isEmpty) {
+      name = await _apiService.loadUserName();
+    }
+    
+    if (name != null && name.isNotEmpty && mounted) {
+      setState(() => _userName = name!);
     }
   }
 
