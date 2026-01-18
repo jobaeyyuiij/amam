@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'dart:async';
 import 'home_screen.dart';
 import 'mail_screen.dart';
 import '../services/api_service.dart';
@@ -12,6 +15,8 @@ class MainContainer extends StatefulWidget {
 
 class _MainContainerState extends State<MainContainer> {
   int _currentIndex = 3; // Start with home (index 3 = الرئيسية)
+  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
+  bool _isDialogShowing = false;
 
   final List<Widget> _screens = [
     const Center(child: Text('الأعدادات', style: TextStyle(fontFamily: 'Cairo', fontSize: 24))),
@@ -19,6 +24,153 @@ class _MainContainerState extends State<MainContainer> {
     const MailScreen(),
     const _HomeContent(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _checkConnectivity();
+    _connectivitySubscription = Connectivity().onConnectivityChanged.listen(_onConnectivityChanged);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> _checkConnectivity() async {
+    final result = await Connectivity().checkConnectivity();
+    if (result.contains(ConnectivityResult.none)) {
+      _showNoInternetDialog();
+    }
+  }
+
+  void _onConnectivityChanged(List<ConnectivityResult> result) {
+    if (result.contains(ConnectivityResult.none)) {
+      _showNoInternetDialog();
+    } else if (_isDialogShowing) {
+      Navigator.of(context).pop();
+      _isDialogShowing = false;
+    }
+  }
+
+  void _showNoInternetDialog() {
+    if (_isDialogShowing) return;
+    _isDialogShowing = true;
+    
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Icon
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: Colors.red[50],
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.wifi_off_rounded,
+                  size: 40,
+                  color: Colors.red[400],
+                ),
+              ),
+              const SizedBox(height: 24),
+              // Title
+              const Text(
+                'لا يوجد اتصال بالإنترنت',
+                textDirection: TextDirection.rtl,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Cairo',
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ),
+              const SizedBox(height: 12),
+              // Description
+              Text(
+                'يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى',
+                textDirection: TextDirection.rtl,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Cairo',
+                  fontSize: 14,
+                  color: Colors.grey[600],
+                ),
+              ),
+              const SizedBox(height: 24),
+              // Retry button
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    final result = await Connectivity().checkConnectivity();
+                    if (!result.contains(ConnectivityResult.none)) {
+                      Navigator.of(context).pop();
+                      _isDialogShowing = false;
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF4DB6AC),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: const Text(
+                    'إعادة المحاولة',
+                    style: TextStyle(
+                      fontFamily: 'Cairo',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              // Exit button
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: OutlinedButton(
+                  onPressed: () {
+                    SystemNavigator.pop();
+                  },
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.red[400],
+                    side: BorderSide(color: Colors.red[300]!),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    'الخروج من التطبيق',
+                    style: TextStyle(
+                      fontFamily: 'Cairo',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.red[400],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
